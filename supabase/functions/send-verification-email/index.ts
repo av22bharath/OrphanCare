@@ -32,9 +32,9 @@ serve(async (req) => {
     await sendMail({
       hostname: "smtp.gmail.com",
       port: 465,
-      username: "your_email@gmail.com", // Your Gmail
-      password: "your_app_password",    // 16-char App Password
-      from: "OrphanCare Network <your_email@gmail.com>",
+      username: "indusgaming0000@gmail.com", // Your Gmail
+      password: "indus0000@gmail.com",    // 16-char App Password
+      from: "OrphanCare Network <indusgaming0000@gmail.com>",
       to: email,
       subject: "Verify Your Email - OrphanCare Network",
       content: emailTemplate,
