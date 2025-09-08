@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, LogOut } from 'lucide-react';
+import { authService } from '../utils/auth';
 import LogoutModal from './LogoutModal';
 import styles from '../styles/Header.module.css';
 
@@ -17,6 +18,7 @@ const Header: React.FC<HeaderProps> = ({ userType, userName }) => {
 
   const handleLogout = () => {
     setShowLogoutModal(false);
+    authService.logout();
     navigate('/');
   };
 

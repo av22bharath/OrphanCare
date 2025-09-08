@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { authService } from '../utils/auth';
 import styles from '../styles/EmailVerification.module.css';
 
 const EmailVerification: React.FC = () => {
@@ -13,6 +14,7 @@ const EmailVerification: React.FC = () => {
   
   const email = location.state?.email || 'user@example.com';
   const role = location.state?.role || 'Donor';
+  const message = location.state?.message || '';
 
   useEffect(() => {
     inputRefs.current[0]?.focus();
@@ -46,18 +48,30 @@ const EmailVerification: React.FC = () => {
     }
     
     setIsLoading(true);
-    // Simulate verification
-    setTimeout(() => {
-      if (role === 'Donor') {
-        navigate('/donor/profile-complete');
+    
+    authService.verifyEmail({
+      email,
+      verificationCode
+    }).then(result => {
+      if (result.success) {
+        if (role === 'Donor') {
+          navigate('/donor/profile-complete');
+        } else {
+          navigate('/orphanage/profile-complete');
+        }
       } else {
-        navigate('/orphanage/profile-complete');
+        alert(result.message);
+        setIsLoading(false);
       }
-    }, 1500);
+    }).catch(error => {
+      alert('Verification failed. Please try again.');
+      setIsLoading(false);
+    });
   };
 
   const handleResend = () => {
-    alert('Verification code resent!');
+    // In a real app, you would call a resend API
+    alert('Verification code resent! Check your email.');
   };
 
   return (
@@ -77,6 +91,11 @@ const EmailVerification: React.FC = () => {
           <p className={styles.subtitle}>
             Please enter the 5 digit code sent to <strong>{email}</strong>
           </p>
+          {message && (
+            <p className={styles.message}>
+              {message}
+            </p>
+          )}
           
           <form onSubmit={handleSubmit}>
             <div className={styles.codeInputs}>

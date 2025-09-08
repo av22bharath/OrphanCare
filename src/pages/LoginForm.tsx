@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { authService } from '../utils/auth';
 import styles from '../styles/LoginForm.module.css';
 
 interface LoginFormProps {
@@ -28,14 +29,33 @@ const LoginForm: React.FC<LoginFormProps> = ({ role }) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // orphanage/create-account
-    setTimeout(() => {
-      if (role === 'Donor') {
-        navigate('/donor/dashboard');
+    try {
+      const result = await authService.login({
+        email: formData.email,
+        password: formData.password
+      });
+
+      if (result.success && result.user) {
+        // Check if user role matches the login page role
+        if (result.user.role !== role) {
+          alert(`This account is registered as a ${result.user.role}. Please use the correct login page.`);
+          setIsLoading(false);
+          return;
+        }
+
+        if (result.user.role === 'Donor') {
+          navigate('/donor/dashboard');
+        } else {
+          navigate('/orphanage/dashboard');
+        }
       } else {
-        navigate('/orphanage/dashboard');
+        alert(result.message);
+        setIsLoading(false);
       }
-    }, 1000);
+    } catch (error) {
+      alert('Login failed. Please try again.');
+      setIsLoading(false);
+    }
   };
 
   const handleGoogleLogin = () => {

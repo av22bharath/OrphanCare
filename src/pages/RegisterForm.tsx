@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Building, Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { authService } from '../utils/auth';
 import styles from '../styles/RegisterForm.module.css';
 
 interface RegisterFormProps {
@@ -38,10 +39,30 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ role }) => {
     }
     
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      navigate('/verify-email', { state: { email: formData.email, role } });
-    }, 1000);
+    
+    try {
+      const result = await authService.register({
+        email: formData.email,
+        password: formData.password,
+        role
+      });
+
+      if (result.success) {
+        navigate('/verify-email', { 
+          state: { 
+            email: formData.email, 
+            role,
+            message: result.message 
+          } 
+        });
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      alert('Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleGoogleAuth = () => {
