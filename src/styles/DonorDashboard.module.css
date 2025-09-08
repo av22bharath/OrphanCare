@@ -1,0 +1,501 @@
+.donorDashboard {
+  min-height: 100vh;
+  background-color: var(--white);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.heroWave {
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+}
+
+.heroContent {
+  max-width: 600px;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  line-height: 1.2;
+  color: var(--text-black);
+}
+
+.heroTitle::before,
+.heroTitle::after {
+  content: '"';
+  color: var(--primary-maroon);
+}
+
+.heroText {
+  font-size: 1.1rem;
+  color: var(--light-gray);
+  line-height: 1.6;
+}
+
+/* Profile Section */
+.profileSection {
+  margin-bottom: 48px;
+}
+
+.profileCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.profileInfo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profileAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--secondary-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-maroon);
+}
+
+.profileDetails h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-black);
+}
+
+.profileMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--light-gray);
+  font-size: 14px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: var(--transition);
+  font-size: 14px;
+}
+
+.btnEdit {
+  background-color: var(--primary-maroon);
+  color: var(--white);
+}
+
+.btnEdit:hover {
+  background-color: #660029;
+  transform: translateY(-2px);
+}
+
+.btnDonate {
+  background-color: var(--primary-maroon);
+  color: var(--white);
+  width: 100%;
+  justify-content: center;
+}
+
+.btnDonate:hover {
+  background-color: #660029;
+}
+
+/* Sections */
+.mission,
+.howToDonate,
+.donations,
+.orphanages,
+.pendingDonations,
+.about {
+  margin-bottom: 48px;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 32px;
+  color: var(--text-black);
+}
+
+.missionText {
+  font-size: 1.1rem;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 32px;
+  color: var(--light-gray);
+  line-height: 1.6;
+}
+
+.missionImages {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.imageCard {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.imageCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.imageCard img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* How to Donate Steps */
+.donationSteps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.step {
+  text-align: center;
+  flex: 1;
+}
+
+.stepIcon {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  background-color: var(--white);
+  border: 3px solid var(--primary-maroon);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  color: var(--primary-maroon);
+}
+
+.stepNumber {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--primary-maroon);
+  color: var(--white);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.step h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-black);
+}
+
+.heartbeat {
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Donations Section */
+.donationsScroll {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+}
+
+.donationCard {
+  min-width: 280px;
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.donationStats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statNumber {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary-maroon);
+}
+
+.statLabel {
+  font-size: 12px;
+  color: var(--light-gray);
+}
+
+.donationCard h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-black);
+}
+
+.donationMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--light-gray);
+  font-size: 14px;
+}
+
+/* Orphanages Section */
+.orphanagesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.orphanageCard {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  transition: var(--transition);
+}
+
+.orphanageCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.orphanageCard h4 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-black);
+}
+
+.orphanageDesc {
+  color: var(--light-gray);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.orphanageContact {
+  margin-bottom: 16px;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--light-gray);
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.currentNeeds h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-black);
+}
+
+.needsTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  background: var(--secondary-gray);
+  color: var(--primary-maroon);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Pending Donations */
+.pendingList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.pendingCard {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+
+.pendingInfo h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-black);
+}
+
+.pendingStatus {
+  background: #fff3cd;
+  color: #856404;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+.requestedItem {
+  color: var(--light-gray);
+  font-size: 14px;
+}
+
+.pendingMessage {
+  text-align: center;
+  color: var(--primary-maroon);
+  font-weight: 600;
+  margin-top: 24px;
+}
+
+/* About Section */
+.aboutCard {
+  background: var(--secondary-gray);
+  padding: 48px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.aboutCard p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--light-gray);
+}
+
+/* Footer */
+.footer {
+  background-color: var(--text-black);
+  color: var(--white);
+  padding: 24px 0;
+  text-align: center;
+}
+
+.footerContent {
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+  
+  .profileCard {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+  
+  .profileInfo {
+    justify-content: center;
+  }
+  
+  .missionImages {
+    grid-template-columns: 1fr;
+  }
+  
+  .donationSteps {
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .orphanagesGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .donationsScroll {
+    flex-direction: column;
+  }
+  
+  .donationCard {
+    min-width: auto;
+  }
+  
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+}
