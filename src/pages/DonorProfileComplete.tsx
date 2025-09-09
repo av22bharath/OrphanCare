@@ -3,16 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { User, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
+import { profileService } from '../utils/profile';
 import styles from '../styles/ProfileComplete.module.css';
 
 const DonorProfileComplete: React.FC = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    donorName: '',
     phoneNumber: '',
-    dateOfBirth: '',
-    gender: '',
-    address: ''
+    donationPref: ''
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -28,10 +26,23 @@ const DonorProfileComplete: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      navigate('/donor/dashboard');
-    }, 1500);
+    try {
+      const result = await profileService.completeDonorProfile({
+        donorName: formData.donorName,
+        phoneNumber: formData.phoneNumber,
+        donationPref: formData.donationPref || undefined
+      });
+
+      if (result.success) {
+        navigate('/donor/dashboard');
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      alert('Failed to complete profile. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -53,97 +64,44 @@ const DonorProfileComplete: React.FC = () => {
           </div>
           
           <form onSubmit={handleSubmit} className={styles.form}>
-            <div className={styles.formRow}>
-              <div className={styles.formGroup}>
-                <label htmlFor="firstName">First Name</label>
-                <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  required
-                  className={styles.input}
-                  placeholder="Enter your first name"
-                />
-              </div>
-              
-              <div className={styles.formGroup}>
-                <label htmlFor="lastName">Last Name</label>
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  required
-                  className={styles.input}
-                  placeholder="Enter your last name"
-                />
-              </div>
-            </div>
-            
-            <div className={styles.formRow}>
-              <div className={styles.formGroup}>
-                <label htmlFor="phoneNumber">Phone Number</label>
-                <input
-                  type="tel"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                  required
-                  className={styles.input}
-                  placeholder="Enter your phone number"
-                />
-              </div>
-              
-              <div className={styles.formGroup}>
-                <label htmlFor="dateOfBirth">Date of Birth</label>
-                <div className={styles.dateField}>
-                  <input
-                    type="date"
-                    id="dateOfBirth"
-                    name="dateOfBirth"
-                    value={formData.dateOfBirth}
-                    onChange={handleChange}
-                    required
-                    className={styles.input}
-                  />
-                  <Calendar size={20} className={styles.dateIcon} />
-                </div>
-              </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="donorName">Full Name</label>
+              <input
+                type="text"
+                id="donorName"
+                name="donorName"
+                value={formData.donorName}
+                onChange={handleChange}
+                required
+                className={styles.input}
+                placeholder="Enter your full name"
+              />
             </div>
             
             <div className={styles.formGroup}>
-              <label htmlFor="gender">Gender</label>
-              <select
-                id="gender"
-                name="gender"
-                value={formData.gender}
+              <label htmlFor="phoneNumber">Phone Number</label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
                 onChange={handleChange}
                 required
-                className={styles.select}
-              >
-                <option value="">Select your gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-                <option value="prefer-not-to-say">Prefer not to say</option>
-              </select>
+                className={styles.input}
+                placeholder="Enter your phone number"
+              />
             </div>
             
             <div className={styles.formGroup}>
-              <label htmlFor="address">Address</label>
-              <textarea
-                id="address"
-                name="address"
-                value={formData.address}
+              <label htmlFor="donationPref">Donation Preference (Optional)</label>
+              <input
+                type="text"
+                id="donationPref"
+                name="donationPref"
+                value={formData.donationPref}
                 onChange={handleChange}
-                required
-                className={`${styles.input} ${styles.textarea}`}
-                placeholder="Enter your complete address"
-                rows={4}
+                className={styles.input}
+                placeholder="e.g., Education, Food, Healthcare"
               />
             </div>
             

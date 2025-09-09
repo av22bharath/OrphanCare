@@ -3,17 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { Building, Calendar, CreditCard } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
+import { profileService } from '../utils/profile';
 import styles from '../styles/OrphanegeProfileComplete.module.css';
 
 const OrphanegeProfileComplete: React.FC = () => {
   const [formData, setFormData] = useState({
     orphanageName: '',
-    established: '',
-    contactNumber: '',
-    address: '',
-    registrationNumber: '',
-    male: '',
-    female: '',
+    location: '',
+    capacity: '',
+    establishedDate: '',
+    maleCount: '',
+    femaleCount: '',
     bankName: '',
     accountType: '',
     accountHolderName: '',
@@ -34,10 +34,33 @@ const OrphanegeProfileComplete: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      navigate('/orphanage/dashboard');
-    }, 1500);
+    try {
+      const result = await profileService.completeOrphanageProfile({
+        orphanageName: formData.orphanageName,
+        location: formData.location,
+        capacity: formData.capacity ? parseInt(formData.capacity) : undefined,
+        establishedDate: formData.establishedDate || undefined,
+        maleCount: formData.maleCount ? parseInt(formData.maleCount) : undefined,
+        femaleCount: formData.femaleCount ? parseInt(formData.femaleCount) : undefined,
+        bankDetails: {
+          accountName: formData.bankName,
+          accountType: formData.accountType,
+          accountHolderName: formData.accountHolderName,
+          accountNumber: formData.accountNumber,
+          ifscCode: formData.ifscCode
+        }
+      });
+
+      if (result.success) {
+        navigate('/orphanage/dashboard');
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      alert('Failed to complete profile. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -80,14 +103,13 @@ const OrphanegeProfileComplete: React.FC = () => {
                 </div>
                 
                 <div className={styles.formGroup}>
-                  <label htmlFor="established">Established</label>
+                  <label htmlFor="establishedDate">Established Date</label>
                   <input
                     type="date"
-                    id="established"
-                    name="established"
-                    value={formData.established}
+                    id="establishedDate"
+                    name="establishedDate"
+                    value={formData.establishedDate}
                     onChange={handleChange}
-                    required
                     className={styles.input}
                   />
                 </div>
@@ -95,30 +117,30 @@ const OrphanegeProfileComplete: React.FC = () => {
               
               <div className={styles.formRow}>
                 <div className={styles.formGroup}>
-                  <label htmlFor="contactNumber">Contact Number</label>
+                  <label htmlFor="location">Location/Address</label>
                   <input
-                    type="tel"
-                    id="contactNumber"
-                    name="contactNumber"
-                    value={formData.contactNumber}
+                    type="text"
+                    id="location"
+                    name="location"
+                    value={formData.location}
                     onChange={handleChange}
                     required
                     className={styles.input}
-                    placeholder="Enter contact number"
+                    placeholder="Enter complete address"
                   />
                 </div>
                 
                 <div className={styles.formGroup}>
-                  <label htmlFor="address">Address</label>
-                  <textarea
-                    id="address"
-                    name="address"
-                    value={formData.address}
+                  <label htmlFor="capacity">Capacity (Optional)</label>
+                  <input
+                    type="number"
+                    id="capacity"
+                    name="capacity"
+                    value={formData.capacity}
                     onChange={handleChange}
-                    required
-                    className={`${styles.input} ${styles.textarea}`}
-                    placeholder="Enter complete address"
-                    rows={3}
+                    className={styles.input}
+                    placeholder="Total capacity"
+                    min="0"
                   />
                 </div>
               </div>
@@ -128,30 +150,15 @@ const OrphanegeProfileComplete: React.FC = () => {
             <div className={styles.section}>
               <h2><span className={styles.sectionNumber}>2</span> Orphanage Details</h2>
               
-              <div className={styles.formGroup}>
-                <label htmlFor="registrationNumber">Orphanage Registration Number</label>
-                <input
-                  type="text"
-                  id="registrationNumber"
-                  name="registrationNumber"
-                  value={formData.registrationNumber}
-                  onChange={handleChange}
-                  required
-                  className={styles.input}
-                  placeholder="ex: 1A2D 2C8D 30XX"
-                />
-              </div>
-              
               <div className={styles.formRow}>
                 <div className={styles.formGroup}>
-                  <label htmlFor="male">Male</label>
+                  <label htmlFor="maleCount">Male Count (Optional)</label>
                   <input
                     type="number"
-                    id="male"
-                    name="male"
-                    value={formData.male}
+                    id="maleCount"
+                    name="maleCount"
+                    value={formData.maleCount}
                     onChange={handleChange}
-                    required
                     className={styles.input}
                     placeholder="Enter the number of Male Orphans"
                     min="0"
@@ -159,14 +166,13 @@ const OrphanegeProfileComplete: React.FC = () => {
                 </div>
                 
                 <div className={styles.formGroup}>
-                  <label htmlFor="female">Female</label>
+                  <label htmlFor="femaleCount">Female Count (Optional)</label>
                   <input
                     type="number"
-                    id="female"
-                    name="female"
-                    value={formData.female}
+                    id="femaleCount"
+                    name="femaleCount"
+                    value={formData.femaleCount}
                     onChange={handleChange}
-                    required
                     className={styles.input}
                     placeholder="Enter the number of Female Orphans"
                     min="0"
